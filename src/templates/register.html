@@ -6,12 +6,12 @@
 </head>
 <body>
 
-{{ if .error }}
-    <div>{{ .error }}</div>
-{{ end }}
+
 
 {{ template "navbar.html" . }}
-
+{{ if .error }}
+<div>{{ .error }}</div>
+{{ end }}
 <!--login form-->
 <form action="/register" method="post">
     <input type="text" name="username" placeholder="Username">

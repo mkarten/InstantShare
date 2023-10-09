@@ -36,6 +36,15 @@ func GetEventById(id int) (models.Event, error) {
 	return event, nil
 }
 
+func GetEventByToken(token string) (models.Event, error) {
+	var event models.Event
+	err := DB.Conn.QueryRow("SELECT * FROM events WHERE token = ?", token).Scan(&event.Id, &event.Name, &event.Token, &event.UserUUID)
+	if err != nil {
+		return models.Event{}, err
+	}
+	return event, nil
+}
+
 func GetEventByName(name string) (models.Event, error) {
 	var event models.Event
 	err := DB.Conn.QueryRow("SELECT * FROM events WHERE name = ?", name).Scan(&event.Id, &event.Name, &event.Token, &event.UserUUID)

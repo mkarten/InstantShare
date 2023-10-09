@@ -5,12 +5,12 @@
     <title>Create Event</title>
 </head>
 <body>
-
+{{ template "navbar.html" . }}
 {{ if .error }}
     <div>{{ .error }}</div>
 {{ end }}
 
-{{ template "navbar.html" . }}
+
 
 <form action="/createEvent" method="post">
     <label for="name">Event Name</label>

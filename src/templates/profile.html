@@ -5,12 +5,12 @@
     <title>Profile</title>
 </head>
 <body>
-
+{{ template "navbar.html" . }}
     {{ if .error }}
         <div>{{ .error }}</div>
     {{ end }}
 
-    {{ template "navbar.html" . }}
+
 <div>
     <h1>Profile</h1>
     <h2>Username: {{ .user.Username }}</h2>

@@ -6,6 +6,23 @@
 </head>
 <body>
 {{ template "navbar.html" . }}
+{{ if .error }}
+    <div>{{ .error }}</div>
+{{ end }}
+
+{{ range .pictures }}
+    <img src="/cdn/{{ .UUID }}" alt="picture" width="200" height="200">
+{{ end }}
+
+
+<form action="/cdn/upload" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" id="file">
+    <input type="hidden" name="eventToken" value="{{ .event.Token }}">
+    <!--submit button-->
+    <input type="submit" value="Upload Image" name="submit">
+</form>
+
+
 {{ template "footer.html" . }}
 </body>
 </html>

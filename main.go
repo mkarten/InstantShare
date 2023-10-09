@@ -43,6 +43,16 @@ func main() {
 	r.GET("/createEvent", controllers.GetCreateEvent)
 	r.POST("/createEvent", controllers.PostCreateEvent)
 
+	// event
+	r.GET("/event/:eventToken", controllers.GetEvent)
+
+	// cdn
+	cdn := r.Group("/cdn")
+	{
+		cdn.POST("/upload", controllers.UploadToCDN)
+		cdn.GET("/:pictureUUID", controllers.GetFromCDN)
+	}
+
 	r.NoRoute(func(c *gin.Context) {
 		c.HTML(404, "404.html", gin.H{"path": c.Request.URL.Path})
 	})
