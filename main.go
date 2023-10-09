@@ -9,7 +9,6 @@ import (
 
 func init() {
 	gin.SetMode(gin.DebugMode)
-	// TODO: need to load credentials from .env
 	err := env.Load()
 	if err != nil {
 		panic(err)
@@ -36,6 +35,10 @@ func main() {
 
 	// logout
 	r.GET("/logout", controllers.Logout)
+
+	r.NoRoute(func(c *gin.Context) {
+		c.HTML(404, "404.html", gin.H{"path": c.Request.URL.Path})
+	})
 
 	err := r.Run(":8080")
 	if err != nil {
