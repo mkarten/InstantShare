@@ -34,6 +34,9 @@ func main() {
 	r.GET("/login", controllers.GetLoginPage)
 	r.POST("/login", controllers.PostLoginPage)
 
+	// logout
+	r.GET("/logout", controllers.Logout)
+
 	err := r.Run(":8080")
 	if err != nil {
 		panic(err)
