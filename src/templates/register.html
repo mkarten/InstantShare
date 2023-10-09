@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+</head>
+<body>
+{{ template "navbar.html" . }}
+
+<!--login form-->
+<form action="/register" method="post">
+    <input type="text" name="username" placeholder="Username">
+    <input type="password" name="password" placeholder="Password">
+    <input type="text" name="first_name" placeholder="First Name">
+    <input type="text" name="last_name" placeholder="Last Name">
+    <!--submit button-->
+    <input type="submit" value="Register" name="submit">
+</form>
+
+{{ template "footer.html" . }}
+</body>
+</html>

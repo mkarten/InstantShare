@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+{{ template "navbar.html" . }}
+
+<!--login form-->
+<form action="/login" method="post">
+    <input type="text" name="username" placeholder="Username">
+    <input type="password" name="password" placeholder="Password">
+    <!--submit button-->
+    <input type="submit" value="Login" name="submit">
+</form>
+
+{{ template "footer.html" . }}
+</body>
+</html>
