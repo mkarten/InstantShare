@@ -20,7 +20,7 @@ func CreateEvent(name, userUUID string) (models.Event, error) {
 		UserUUID: userUUID,
 	}
 	// insert the event into the database
-	_, err := DB.Conn.Exec("INSERT INTO events (name, token, user_uuid) VALUES (?, ?, ?)", newEvent.Name, newEvent.Token, newEvent.UserUUID)
+	_, err := DB.Conn.Exec("INSERT INTO events (name, token, userUUID) VALUES (?, ?, ?)", newEvent.Name, newEvent.Token, newEvent.UserUUID)
 	if err != nil {
 		return models.Event{}, err
 	}
@@ -47,7 +47,7 @@ func GetEventByName(name string) (models.Event, error) {
 
 func GetEventsByUserUUID(userUUID string) ([]models.Event, error) {
 	var events []models.Event
-	rows, err := DB.Conn.Query("SELECT * FROM events WHERE user_uuid = ?", userUUID)
+	rows, err := DB.Conn.Query("SELECT * FROM events WHERE userUUID = ?", userUUID)
 	if err != nil {
 		return []models.Event{}, err
 	}

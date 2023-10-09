@@ -25,6 +25,9 @@ func main() {
 	// add the routes
 	r.GET("/", controllers.MainPage)
 
+	// profile
+	r.GET("/profile", controllers.GetProfile)
+
 	// register
 	r.GET("/register", controllers.GetRegisterPage)
 	r.POST("/register", controllers.PostRegisterPage)
@@ -35,6 +38,10 @@ func main() {
 
 	// logout
 	r.GET("/logout", controllers.Logout)
+
+	// create event
+	r.GET("/createEvent", controllers.GetCreateEvent)
+	r.POST("/createEvent", controllers.PostCreateEvent)
 
 	r.NoRoute(func(c *gin.Context) {
 		c.HTML(404, "404.html", gin.H{"path": c.Request.URL.Path})

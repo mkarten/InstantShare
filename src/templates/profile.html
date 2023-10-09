@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+</head>
+<body>
+
+    {{ if .error }}
+        <div>{{ .error }}</div>
+    {{ end }}
+
+    {{ template "navbar.html" . }}
+<div>
+    <h1>Profile</h1>
+    <h2>Username: {{ .user.Username }}</h2>
+    <h2>Fist Name: {{ .user.FirstName }}</h2>
+    <h2>Last Name: {{ .user.LastName }}</h2>
+    <h2>Events:</h2>
+    <ul>
+        {{ range .events }}
+            <li>
+                <div>
+                    <h3>{{ .Name }}</h3>
+                    <a href="/event/{{ .Token }}">View Event</a>
+                </div>
+            </li>
+        {{ end }}
+    </ul>
+</div>
+
+    {{ template "footer.html" . }}
+</body>
+</html>
