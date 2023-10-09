@@ -15,7 +15,7 @@ type session struct {
 	user  *models.User
 }
 
-var SessionManager *Manager
+var SessionManager Manager
 
 func generateToken() string {
 	return uuid.New().String()
@@ -23,6 +23,17 @@ func generateToken() string {
 
 func init() {
 	SessionManager.Sessions = make(map[string]*session)
+}
+
+func (m *Manager) CheckSession(c *gin.Context) bool {
+	// get the session token
+	token, err := c.Cookie("session_token")
+	if err != nil {
+		return false
+	}
+	// check if the session exists
+	_, ok := m.Sessions[token]
+	return ok
 }
 
 func (m *Manager) CreateSession(c *gin.Context, user *models.User) {

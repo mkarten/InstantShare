@@ -7,6 +7,10 @@
 <body>
 {{ template "navbar.html" . }}
 
+{{ if .error }}
+    <div>{{ .error }}</div>
+{{ end }}
+
 <!--login form-->
 <form action="/login" method="post">
     <input type="text" name="username" placeholder="Username">

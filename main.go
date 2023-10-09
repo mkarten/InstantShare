@@ -2,13 +2,19 @@ package main
 
 import (
 	"InstantShare/controllers"
+	"InstantShare/utils/db"
 	"github.com/gin-gonic/gin"
+	"github.com/tot0p/env"
 )
 
 func init() {
 	gin.SetMode(gin.DebugMode)
 	// TODO: need to load credentials from .env
-	//db.InitDB("", "", "", "", "") // "host","port","user","password","database
+	err := env.Load()
+	if err != nil {
+		panic(err)
+	}
+	db.InitDB(env.Get("HOST"), "3306", env.Get("USERNAME"), env.Get("PASSWORD"), env.Get("DATABASE"))
 }
 
 func main() {

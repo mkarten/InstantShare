@@ -5,6 +5,11 @@
     <title>Register</title>
 </head>
 <body>
+
+{{ if .error }}
+    <div>{{ .error }}</div>
+{{ end }}
+
 {{ template "navbar.html" . }}
 
 <!--login form-->

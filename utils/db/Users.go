@@ -30,7 +30,7 @@ func CreateUser(username, password, firsName, lastName string) (models.User, err
 		LastName:  lastName,
 	}
 	// insert the user into the database
-	_, err = DB.Conn.Exec("INSERT INTO users (uuid, username, password, first_name, last_name) VALUES ($1, $2, $3, $4, $5)", newUser.UUID, newUser.Username, newUser.Password, newUser.FirstName, newUser.LastName)
+	_, err = DB.Conn.Exec("INSERT INTO users (uuid, username, password, first_name, last_name) VALUES (?, ?, ?, ?, ?)", newUser.UUID, newUser.Username, newUser.Password, newUser.FirstName, newUser.LastName)
 	if err != nil {
 		return models.User{}, err
 	}
@@ -39,7 +39,7 @@ func CreateUser(username, password, firsName, lastName string) (models.User, err
 
 func GetUserByUUID(uuid string) (models.User, error) {
 	var user models.User
-	err := DB.Conn.QueryRow("SELECT * FROM users WHERE uuid = $1", uuid).Scan(&user.UUID, &user.Username, &user.Password, &user.FirstName, &user.LastName)
+	err := DB.Conn.QueryRow("SELECT * FROM users WHERE uuid = ?", uuid).Scan(&user.UUID, &user.Username, &user.Password, &user.FirstName, &user.LastName)
 	if err != nil {
 		return models.User{}, err
 	}
@@ -48,7 +48,7 @@ func GetUserByUUID(uuid string) (models.User, error) {
 
 func GetUserByUsername(username string) (models.User, error) {
 	var user models.User
-	err := DB.Conn.QueryRow("SELECT * FROM users WHERE username = $1", username).Scan(&user.UUID, &user.Username, &user.Password, &user.FirstName, &user.LastName)
+	err := DB.Conn.QueryRow("SELECT * FROM users WHERE username = ?", username).Scan(&user.UUID, &user.Username, &user.Password, &user.FirstName, &user.LastName)
 	if err != nil {
 		return models.User{}, err
 	}
@@ -57,7 +57,7 @@ func GetUserByUsername(username string) (models.User, error) {
 
 func UpdateUser(user models.User) (models.User, error) {
 	// update the user
-	_, err := DB.Conn.Exec("UPDATE users SET username = $1, password = $2, first_name = $3, last_name = $4 WHERE uuid = $5", user.Username, user.Password, user.FirstName, user.LastName, user.UUID)
+	_, err := DB.Conn.Exec("UPDATE users SET username = ?, password = ?, first_name = ?, last_name = ? WHERE uuid = ?", user.Username, user.Password, user.FirstName, user.LastName, user.UUID)
 	if err != nil {
 		return models.User{}, err
 	}
@@ -66,7 +66,7 @@ func UpdateUser(user models.User) (models.User, error) {
 
 func DeleteUser(user models.User) error {
 	// delete the user
-	_, err := DB.Conn.Exec("DELETE FROM users WHERE uuid = $1", user.UUID)
+	_, err := DB.Conn.Exec("DELETE FROM users WHERE uuid = ?", user.UUID)
 	if err != nil {
 		return err
 	}
