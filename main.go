@@ -8,7 +8,7 @@ import (
 )
 
 func init() {
-	gin.SetMode(gin.DebugMode)
+	gin.SetMode(gin.ReleaseMode)
 	err := env.Load()
 	if err != nil {
 		panic(err)
