@@ -87,3 +87,46 @@ func DeleteEventPictures(eventToken string) error {
 	}
 	return nil
 }
+
+func LikePicture(pictureUUID, userUUID string) error {
+	// check if the user has already liked the picture
+	rows, err := DB.Conn.Query("SELECT * FROM likes WHERE userUUID = ? AND pictureUUID = ?", userUUID, pictureUUID)
+	if err != nil {
+		return err
+	}
+	liked := false
+	// if the user has already liked the picture
+	if rows.Next() {
+		liked = true
+	}
+	// get the picture from the database
+	picture, err := GetPictureByUUID(pictureUUID)
+	if err != nil {
+		return err
+	}
+	if liked {
+		// update the likes
+		_, err = DB.Conn.Exec("UPDATE pictures SET likes = ? WHERE uuid = ?", picture.Likes-1, pictureUUID)
+		if err != nil {
+			return err
+		}
+		// delete the like from the database
+		_, err = DB.Conn.Exec("DELETE FROM likes WHERE userUUID = ? AND pictureUUID = ?", userUUID, pictureUUID)
+		if err != nil {
+			return err
+		}
+	} else {
+		// update the likes
+		_, err = DB.Conn.Exec("UPDATE pictures SET likes = ? WHERE uuid = ?", picture.Likes+1, pictureUUID)
+		if err != nil {
+			return err
+		}
+		// insert the like into the database
+		_, err = DB.Conn.Exec("INSERT INTO likes (userUUID, pictureUUID) VALUES (?, ?)", userUUID, pictureUUID)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}

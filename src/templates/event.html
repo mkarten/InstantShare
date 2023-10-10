@@ -91,13 +91,23 @@
                 <img src="/static/img/downloadIcon.svg" alt="download" width="100%" height="100%">
             </a>
             <img src="/cdn/{{ .UUID }}" alt="picture" class="picture">
-            <div class="likeContainer">
-                <img src="/static/img/heartIcon.svg" alt="heart" class="heart">
-                <p class="heartText">{{ .Likes }}</p>
-            </div>
+            <a href="/like/{{ .UUID }}"class="likeContainer">
+                <div >
+                    <img src="/static/img/heartIcon.svg" alt="heart" class="heart">
+                    <p class="heartText">{{ .Likes }}</p>
+                </div>
+            </a>
         </div>
         {{ end }}
     </div>
+
+    {{ if not .pictures }}
+    {{ if not .highlightedPictures }}
+    <div style="display: inline-flex; width: 100%; justify-content: center">
+        <h2>no pictures yet</h2>
+    </div>
+    {{ end }}
+    {{ end }}
 
     <form action="/cdn/upload" method="post" enctype="multipart/form-data" id="uploadForm">
         <input type="file" name="file" id="file" style="display: none">

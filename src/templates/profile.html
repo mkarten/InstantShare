@@ -46,6 +46,13 @@
         </div>
         {{ end }}
 
+        {{ if not .events }}
+        {{ if not .contributions }}
+            <h2>You have not created or contributed to any events yet.</h2>
+            <a href="/createEvent" class="navbarButton">Why not create one?</a>
+        {{ end }}
+        {{ end }}
+
 
     </div>
 </div>

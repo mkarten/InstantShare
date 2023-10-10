@@ -50,6 +50,8 @@ func main() {
 	r.GET("/event/:eventToken", controllers.GetEvent)
 	r.POST("/event/:eventToken/delete", controllers.DeleteEvent)
 
+	r.GET("/like/:pictureUUID", controllers.LikePicture)
+
 	// cdn
 	cdn := r.Group("/cdn")
 	{
