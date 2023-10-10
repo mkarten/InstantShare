@@ -3,9 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
+    <link href="/static/css/style.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 {{ template "navbar.html" . }}
-{{ template "footer.html" . }}
+<div class="main">
+    <div style="display: flex;flex-direction: column;text-align: center;margin: 0 5vw">
+        <h2>Welcome to the InstantShare!</h2>
+        <p>InstantShare is a web application that allows you to share your pictures with your friends and family in real time using a simple link.</p>
+        <p>It is very easy to use, just create an event, share the link with your friends and start uploading pictures!</p>
+        {{ if .user }}
+            <a href="/createEvent" class="navbarButton">Create an event</a>
+        {{ else }}
+            <a href="/login" class="navbarButton">Login</a>
+        {{ end }}
+    </div>
+</div>
 </body>
 </html>

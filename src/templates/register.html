@@ -3,29 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
+    <link href="/static/css/style.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
 
 
 {{ template "navbar.html" . }}
-{{ if .error }}
-<div>{{ .error }}</div>
-{{ end }}
-<!--login form-->
-<form action="/register" method="post">
-    <input type="text" name="username" placeholder="Username">
-    <input type="password" name="password" placeholder="Password">
-    <input type="text" name="first_name" placeholder="First Name">
-    <input type="text" name="last_name" placeholder="Last Name">
-    <!--submit button-->
-    <input type="submit" value="Register" name="submit">
-</form>
 
-<div>
-    <p>Already have an account? <a href="/login">Login</a></p>
+<div class="main">
+    {{ if .error }}
+    <div>{{ .error }}</div>
+    {{ end }}
+    <!--login form-->
+    <form action="/register" method="post">
+        <input type="text" name="username" placeholder="Username">
+        <input type="password" name="password" placeholder="Password">
+        <input type="text" name="first_name" placeholder="First Name">
+        <input type="text" name="last_name" placeholder="Last Name">
+        <!--submit button-->
+        <input type="submit" value="Register" name="submit">
+    </form>
+
+    <div>
+        <p>Already have an account? <a href="/login">Login</a></p>
+    </div>
 </div>
 
-{{ template "footer.html" . }}
+
 </body>
 </html>

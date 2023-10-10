@@ -67,3 +67,21 @@ func GetFromCDN(c *gin.Context) {
 	// serve the file
 	c.File("./src/uploads" + picture.FilePath)
 }
+
+func DownloadFromCDN(c *gin.Context) {
+	// get the pictureUUID
+	pictureUUID := c.Param("pictureUUID")
+	// get the picture from the database
+	picture, err := db.GetPictureByUUID(pictureUUID)
+	if err != nil {
+		c.String(404, "File not found")
+		return
+	}
+	// check if the file exists
+	if _, err := os.Stat("./src/uploads" + picture.FilePath); os.IsNotExist(err) {
+		c.String(404, "File not found")
+		return
+	}
+	// serve the file
+	c.FileAttachment("./src/uploads"+picture.FilePath, picture.UUID+".jpg")
+}

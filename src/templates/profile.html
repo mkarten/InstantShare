@@ -3,32 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <title>Profile</title>
+    <link href="/static/css/style.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 {{ template "navbar.html" . }}
+
+<div class="main">
     {{ if .error }}
-        <div>{{ .error }}</div>
+    <div>{{ .error }}</div>
     {{ end }}
 
 
-<div>
-    <h1>Profile</h1>
-    <h2>Username: {{ .user.Username }}</h2>
-    <h2>Fist Name: {{ .user.FirstName }}</h2>
-    <h2>Last Name: {{ .user.LastName }}</h2>
-    <h2>Events:</h2>
-    <ul>
-        {{ range .events }}
-            <li>
-                <div>
-                    <h3>{{ .Name }}</h3>
-                    <a href="/event/{{ .Token }}">View Event</a>
-                </div>
-            </li>
+    <div style="display: flex;flex-direction: column;text-align: center;margin: 0 5vw">
+        <h2>Welcome Back {{ .user.FirstName }} {{ .user.LastName }}</h2>
+        <h3>Want to change account ? <a href="/logout">Logout</a></h3>
+        {{ if .events }}
+        <h2>Here are the events you created:</h2>
+        <div>
+            {{ range .events }}
+            <div style="display: flex;flex-direction: column;text-align: center;margin: 0 5vw;border-color: #2C2C34;">
+                <h3>{{ .Name }}</h3>
+                <a href="/event/{{ .Token }}" class="navbarButton">View Event</a>
+                <form action="/event/{{ .Token }}/delete" method="post">
+                    <input type="submit" value="Delete Event" name="submit" class="navbarButton">
+                </form>
+            </div>
+            <hr style="border-top: 3px solid #bbb;">
+            {{ end }}
+        </div>
         {{ end }}
-    </ul>
+        {{ if .contributions }}
+        <h2>Here are the events you contributed to:</h2>
+        <div>
+            {{ range .contributions }}
+            <div style="display: flex;flex-direction: column;text-align: center;margin: 0 5vw;border-color: #2C2C34;">
+                <h3>{{ .Name }}</h3>
+                <a href="/event/{{ .Token }}" class="navbarButton">View Event</a>
+            </div>
+            <hr style="border-top: 3px solid #bbb;">
+            {{ end }}
+        </div>
+        {{ end }}
+
+
+    </div>
 </div>
 
-    {{ template "footer.html" . }}
 </body>
 </html>

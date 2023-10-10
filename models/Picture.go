@@ -5,4 +5,5 @@ type Picture struct {
 	FilePath   string
 	EventToken string
 	UserUUID   string
+	Likes      int
 }

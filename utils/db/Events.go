@@ -71,6 +71,24 @@ func GetEventsByUserUUID(userUUID string) ([]models.Event, error) {
 	return events, nil
 }
 
+func GetEventContributionByUserUUID(userUUID string) ([]models.Event, error) {
+	// check in the picture table if the user has contributed to an event
+	var events []models.Event
+	rows, err := DB.Conn.Query("SELECT * FROM events WHERE token IN (SELECT event_token FROM pictures WHERE user_uuid = ?)", userUUID)
+	if err != nil {
+		return []models.Event{}, err
+	}
+	for rows.Next() {
+		var event models.Event
+		err := rows.Scan(&event.Id, &event.Name, &event.Token, &event.UserUUID)
+		if err != nil {
+			return []models.Event{}, err
+		}
+		events = append(events, event)
+	}
+	return events, nil
+}
+
 func UpdateEvent(event models.Event) (models.Event, error) {
 	// update the event
 	_, err := DB.Conn.Exec("UPDATE events SET name = ?, token = ?, user_uuid = ? WHERE id = ?", event.Name, event.Token, event.UserUUID, event.Id)
@@ -80,9 +98,9 @@ func UpdateEvent(event models.Event) (models.Event, error) {
 	return event, nil
 }
 
-func DeleteEvent(id int) error {
+func DeleteEventByToken(token string) error {
 	// delete the event
-	_, err := DB.Conn.Exec("DELETE FROM events WHERE id = ?", id)
+	_, err := DB.Conn.Exec("DELETE FROM events WHERE token = ?", token)
 	if err != nil {
 		return err
 	}

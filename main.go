@@ -22,6 +22,9 @@ func main() {
 	// set the html template
 	r.LoadHTMLGlob("./src/templates/*")
 
+	// set the static files
+	r.Static("/static", "./src/static")
+
 	// add the routes
 	r.GET("/", controllers.MainPage)
 
@@ -45,12 +48,14 @@ func main() {
 
 	// event
 	r.GET("/event/:eventToken", controllers.GetEvent)
+	r.POST("/event/:eventToken/delete", controllers.DeleteEvent)
 
 	// cdn
 	cdn := r.Group("/cdn")
 	{
 		cdn.POST("/upload", controllers.UploadToCDN)
 		cdn.GET("/:pictureUUID", controllers.GetFromCDN)
+		cdn.GET("/download/:pictureUUID", controllers.DownloadFromCDN)
 	}
 
 	r.NoRoute(func(c *gin.Context) {

@@ -3,26 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ .event.Name }}</title>
+    <link href="/static/css/style.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        function upload() {
+            document.getElementById('file').click();
+            // when the file is selected, submit the form
+            document.getElementById('file').onchange = function() {
+                document.getElementById('uploadForm').submit();
+            };
+        }
+    </script>
 </head>
 <body>
 {{ template "navbar.html" . }}
-{{ if .error }}
+<div class="main">
+
+    {{ if .error }}
     <div>{{ .error }}</div>
-{{ end }}
+    <div> go back to <a href="/">home</a></div>
 
-{{ range .pictures }}
-    <img src="/cdn/{{ .UUID }}" alt="picture" width="200" height="200">
-{{ end }}
+    {{ else }}
+    <div style="display: inline-flex; width: 100%; justify-content: center">
+        <h1>{{ .event.Name }}</h1>
+    </div>
 
+    <div class="highlightedContainer">
+        <div class="highlightedContainerCarousel">
+            {{ if .highlightedPictures.First }}
+            <div class="pictureContainer">
+                <!--        download button-->
+                <a href="/cdn/download/{{ .highlightedPictures.First.UUID }}" download="{{ .highlightedPictures.First.UUID }}" class="download">
+                    <img src="/static/img/downloadIcon.svg" alt="download" width="100%" height="100%">
+                </a>
+                <img src="/static/img/crownIcon.svg" alt="crown" class="crown">
+                <img src="/cdn/{{ .highlightedPictures.First.UUID }}" alt="picture" class="picture">
+                <a href="/like/{{ .highlightedPictures.First.UUID }}"class="likeContainer">
+                    <div >
+                        <img src="/static/img/heartIcon.svg" alt="heart" class="heart">
+                        <p class="heartText">{{ .highlightedPictures.First.Likes }}</p>
+                    </div>
+                </a>
+            </div>
+            {{ end }}
 
-<form action="/cdn/upload" method="post" enctype="multipart/form-data">
-    <input type="file" name="file" id="file">
-    <input type="hidden" name="eventToken" value="{{ .event.Token }}">
-    <!--submit button-->
-    <input type="submit" value="Upload Image" name="submit">
-</form>
+            {{ if .highlightedPictures.Second }}
 
+            <div class="pictureContainer">
+                <!--        download button-->
+                <a href="/cdn/download/{{ .highlightedPictures.Second.UUID }}" download="{{ .highlightedPictures.Second.UUID }}" class="download">
+                    <img src="/static/img/downloadIcon.svg" alt="download" width="100%" height="100%">
+                </a>
+                <img src="/cdn/{{ .highlightedPictures.Second.UUID }}" alt="picture" class="picture">
+                <a href="/like/{{ .highlightedPictures.Second.UUID }}"class="likeContainer">
+                    <div >
+                        <img src="/static/img/heartIcon.svg" alt="heart" class="heart">
+                        <p class="heartText">{{ .highlightedPictures.Second.Likes }}</p>
+                    </div>
+                </a>
+            </div>
+            {{ end }}
 
-{{ template "footer.html" . }}
+            {{ if .highlightedPictures.Third }}
+
+            <div class="pictureContainer">
+                <!--        download button-->
+                <a href="/cdn/download/{{ .highlightedPictures.Third.UUID }}" download="{{ .highlightedPictures.Third.UUID }}" class="download">
+                    <img src="/static/img/downloadIcon.svg" alt="download" width="100%" height="100%">
+                </a>
+                <img src="/cdn/{{ .highlightedPictures.Third.UUID }}" alt="picture" class="picture">
+                <a href="/like/{{ .highlightedPictures.Third.UUID }}"class="likeContainer">
+                    <div >
+                        <img src="/static/img/heartIcon.svg" alt="heart" class="heart">
+                        <p class="heartText">{{ .highlightedPictures.Third.Likes }}</p>
+                    </div>
+                </a>
+
+            </div>
+            {{ end }}
+        </div>
+    </div>
+    <div class="normalPictureContainer">
+        {{ range .pictures }}
+        <div class="pictureContainer">
+            <!--        download button-->
+            <a href="/cdn/download/{{ .UUID }}" download="{{ .UUID }}" class="download">
+                <img src="/static/img/downloadIcon.svg" alt="download" width="100%" height="100%">
+            </a>
+            <img src="/cdn/{{ .UUID }}" alt="picture" class="picture">
+            <div class="likeContainer">
+                <img src="/static/img/heartIcon.svg" alt="heart" class="heart">
+                <p class="heartText">{{ .Likes }}</p>
+            </div>
+        </div>
+        {{ end }}
+    </div>
+
+    <form action="/cdn/upload" method="post" enctype="multipart/form-data" id="uploadForm">
+        <input type="file" name="file" id="file" style="display: none">
+        <input type="hidden" name="eventToken" value="{{ .event.Token }}">
+        <input type="button" value="+" id="uploadButton" onclick="upload()" class="uploadButton">
+    </form>
+    {{ end }}
+
+</div>
+
 </body>
 </html>

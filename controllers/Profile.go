@@ -15,7 +15,19 @@ func GetProfile(c *gin.Context) {
 			c.HTML(400, "profile.html", gin.H{"error": "could not get events"})
 			return
 		}
-		c.HTML(200, "profile.html", gin.H{"user": user, "events": events})
+		contribution, err := db.GetEventContributionByUserUUID(utils.SessionManager.GetSessionUser(c).UUID)
+
+		if err != nil {
+			c.HTML(400, "profile.html", gin.H{"error": "could not get events"})
+			return
+		}
+		if len(contribution) == 0 {
+			contribution = nil
+		}
+		if len(events) == 0 {
+			events = nil
+		}
+		c.HTML(200, "profile.html", gin.H{"user": user, "events": events, "contributions": contribution})
 	} else {
 		c.Redirect(302, "/")
 	}
